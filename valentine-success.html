@@ -189,6 +189,12 @@
     <!-- Background Music -->
     <audio autoplay loop>
         <source src="lettersong.mp3" type="audio/mpeg">
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            let music = document.querySelector('audio');
+            music.volume = 0.4; // Set volume to 40%
+            });
+        </script>
         <audio id="lettersound">
             <source src="lettersong.mp3" type="audio/mpeg">
         </audio>
@@ -266,16 +272,8 @@
     <div class="heart">❤️</div>
     <div class="heart">❤️</div>
 
-    <script>
-        function playMusic() {
-        let music = document.getElementById("lettersound");
-        music.volume = 0.4; // Set volume to 30% (adjust as needed)
-        music.play();
-    }
-    
-        function toggleLetter(letterId) {
-            playMusic(); // Play music when a letter is opened
-            
+    <script>    
+        function toggleLetter(letterId) {            
             const letter = document.getElementById(letterId);
             const envelope = document.querySelector(`.envelope-container[onclick="toggleLetter('${letterId}')"]`);
     
