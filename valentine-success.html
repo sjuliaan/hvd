@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letters for you</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400&display=swap');
+
+        body {
+            background: linear-gradient(120deg, #ffdde1, #fad0c4);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .envelope-wrapper {
+            display: flex;
+            gap: 20px; /* Space between envelopes */
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .envelope-container {
+            position: relative;
+            cursor: pointer;
+            animation: bounce 1.5s infinite alternate ease-in-out;
+        }
+
+        .envelope-container:nth-child(1) {
+            transform: rotate(-10deg); /* Tilt the first envelope */
+        }
+
+        .envelope-container:nth-child(2) {
+            transform: rotate(10deg); /* Tilt the second envelope */
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0) rotate(-10deg); }
+            100% { transform: translateY(-10px) rotate(-10deg); }
+        }
+
+        @keyframes bounce2 {
+            0% { transform: translateY(0) rotate(10deg); }
+            100% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        .envelope {
+            width: 220px;
+            height: 160px;
+            background: #ff7b9e;
+            position: relative;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            border-bottom: 85px solid #ffb3c1;
+            z-index: 1;
+        }
+
+        .seal {
+            width: 40px;
+            height: 40px;
+            background: #ff4060;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            font-size: 22px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.3s ease-out;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .letter {
+            background: white;
+            padding: 30px;
+            max-width: 600px;
+            width: 80%;
+            margin: 20px auto;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            display: none;
+            position: absolute;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 0;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            overflow-y: auto;
+            max-height: 80vh;
+            border: 2px solid #ff7b9e;
+            cursor: pointer;
+        }
+
+        .letter.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        h1 {
+            color: #ff4081;
+            font-size: 28px;
+            font-family: 'Pacifico', cursive;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff4060;
+            font-size: 20px;
+            animation: floatUp 5s infinite linear;
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(100vh) scale(0.8); opacity: 1; }
+            to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Floating hearts positioning */
+        .heart:nth-child(1) { left: 5%; animation-duration: 6s; }
+        .heart:nth-child(2) { left: 10%; animation-duration: 8s; }
+        .heart:nth-child(3) { left: 15%; animation-duration: 7s; }
+        .heart:nth-child(4) { left: 20%; animation-duration: 6s; }
+        .heart:nth-child(5) { left: 25%; animation-duration: 9s; }
+        .heart:nth-child(6) { left: 30%; animation-duration: 5s; }
+        .heart:nth-child(7) { left: 35%; animation-duration: 7s; }
+        .heart:nth-child(8) { left: 40%; animation-duration: 8s; }
+        .heart:nth-child(9) { left: 45%; animation-duration: 6s; }
+        .heart:nth-child(10) { left: 50%; animation-duration: 7s; }
+        .heart:nth-child(11) { left: 55%; animation-duration: 6s; }
+        .heart:nth-child(12) { left: 60%; animation-duration: 8s; }
+        .heart:nth-child(13) { left: 65%; animation-duration: 7s; }
+        .heart:nth-child(14) { left: 70%; animation-duration: 6s; }
+        .heart:nth-child(15) { left: 75%; animation-duration: 9s; }
+        .heart:nth-child(16) { left: 80%; animation-duration: 5s; }
+        .heart:nth-child(17) { left: 85%; animation-duration: 7s; }
+        .heart:nth-child(18) { left: 90%; animation-duration: 8s; }
+        .heart:nth-child(19) { left: 95%; animation-duration: 6s; }
+        .heart:nth-child(20) { left: 100%; animation-duration: 7s; }
+        .heart:nth-child(21) { left: 0%; animation-duration: 7s; } /* New heart */
+.heart:nth-child(22) { left: 2%; animation-duration: 6s; } /* New heart */
+.heart:nth-child(23) { left: 4%; animation-duration: 8s; } /* New heart */
+.heart:nth-child(24) { left: 6%; animation-duration: 5s; } /* New heart */
+.heart:nth-child(25) { left: 5%; animation-duration: 7s; } /* New heart */
+.heart:nth-child(26) { left: 7%; animation-duration: 7s; } /* New heart */
+.heart:nth-child(27) { left: 8%; animation-duration: 6s; } /* New heart */
+.heart:nth-child(28) { left: 8%; animation-duration: 8s; } /* New heart */
+.heart:nth-child(29) { left: 9%; animation-duration: 5s; } /* New heart */
+.heart:nth-child(30) { left: 10%; animation-duration: 7s; } /* New heart */
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio autoplay loop>
+        <source src="lettersong.mp3" type="audio/mpeg">
+        <audio id="lettersound">
+            <source src="lettersong.mp3" type="audio/mpeg">
+        </audio>
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="envelope-wrapper">
+        <!-- First Envelope -->
+        <div class="envelope-container" onclick="toggleLetter('letter1')">
+            <div class="envelope"></div>
+            <div class="seal">❤️</div>
+        </div>
+
+        <!-- Second Envelope -->
+        <div class="envelope-container" onclick="toggleLetter('letter2')">
+            <div class="envelope"></div>
+            <div class="seal">❤️</div>
+        </div>
+    </div>
+
+    <!-- First Letter -->
+    <div class="letter" id="letter1" onclick="toggleLetter('letter1')">
+        <h1>Dear Jasmine ❤️</h1>
+        <p>Hi Oat ^^ MWHEHEEHE. I know I always say na I'm so proud of you, but I can't help myself but keep reminding you of that, because I REALLY AM SO PROUD OF YOU SHAHSAHSHA. I just know for myself that though you may appear strong and happy on the outside, I know also that you have a lot of things that you are bottling up inside you.</p>
+        <p>So, I just want to remind you again that you don't have to hold everything on your own, omki? No pressure, I'm always here for you. So whenever you're ready, or whenever you feel like you can't handle it anymore, and want mo na mag rely on someone. I want to give you assurance that I'm always free, and ready to listen to you. I will always be here for you. </p>
+        <p>. I want to keep seeing that smile of yours, for it brings me joy ^^ and that's why I want to treat you even better on your low days, your worst days, bad days. Whenever you feel like the world has turned its back against you, then I'll give you my world!</p>
+        <p>If you are wondering why I'm doing all of this for you, it's all simply because all of these are just something that I simply want you to have and feel. You deserve this kind of love! ^___^ </p>
+        <p>So, no matter how lost you are in your mind, no matter how intense your fears become, gosh let my love be a steady place for you to return to. I want to act as your home that you can always return to when you get lost. :3</p>
+    </div>
+
+    <!-- Second Letter -->
+    <div class="letter" id="letter2" onclick="toggleLetter('letter2')">
+        <h1>Appreciation Letter 💌</h1>
+        <p>HIII OAT MWEHEHE! I just want to take this time ngayong nasa labas ikaw, cocomfort friend mo kasi broken HSAHSHAHSA. So, as you're reading this, and wondering kung ano ginagawa q bakit ako late mag reply kanina. It's probably because I'm doing all of these codes, and letters. This letter is to show how much I appreciate youuu!! ^_____^</p>
+        <p>I really appreciate you, in a way that being with you, talking with you, feels like I'm exactly where I need to be. I love the feeling of being with you.</p>
+        <p>I really admire you for who you are. I really wish that you could see yourself the same way as I see you, only then you realize how special you are, how beautiful you are. You're perfect the way you already are.</p>
+        <p>The word capitavating is the word na nakatatak na lagi sa utak ko whenever that I think of you. The word prety, cutie, mesmerizing, beautiful, flower, and there's so much other more words na nakatatak na sa utak ko that reminds me of you. Whenever na naririnig or nakikita ko yung word na yun, you're always the first one that comes to mind.</p>
+        <p>I remember nung una tayong nag usap dati, nung time na sinabi mo sakin na it's okay to disagree na maganda ikaw, kasi hindi ko pa nakikita yung face mo nyeye >:(  that was the first time that I was able to express myself that well, and you also rated it a 10/10. Sobrang proud ko nun SHAHSAH I really appreciate it so much! So, let me say it lang again how you are so captivating sakin.</p>
+        <p>You may not notice, but the way you are so captivating to me is like, you give this whole aura, this vibes so bright and cheerful. I really love how it brightens up my day, just by being in your universe. You are also captivating to me in a way that your energetic vibes, also energizes me, and is what pushes me to keep going through my day, especially when I am down. You are also so so so much captivating in a way na TANGINA ANG GANDA MO WHASHAHWAHSWHAHW PLS I SWEAR IF NAKIKITA M TALAGA YUNG SARILI M SA EYES KO, MAPAPA LUHOD K NLNG WHAHSHAWHAWHHAWH!</p>
+        <p>I appreciate every thing that you do for me, even those little things are much much bigger than you think. You bring so much light, joy and peace into my life. Alam mo ba? I feel like sometimes nafefeel mo na I might overthink things, then start to give assurances agad, even when I don't ask for it. I really appreciate that.</p>
+        <p>I know how kind you are oat! so please be kind to yourself also, and always take care of yourself oki? and if you find yourself struggling to be kind to yourself, I'm always here to be kind to you! I will protect you and take care of you, for your happiness is the source of my happiness ^^</p>
+        <p>Always remember that in every battle you survive, is a progress in your life. I really really acknowledge you and proud of you, so always keep pushing forward omki? I'm always here lang din, lagi ko nakikita mga progress mo. I'm super proud of you!</p>
+        <p>So, I just want to say thank you for being you, for being the person that you are. I really appreciate you so much, and I love you so much! ❤️</p>
+    </div>
+
+    <!-- Floating hearts -->
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+
+    <script>
+        function playMusic() {
+        let music = document.getElementById("lettersound");
+        music.volume = 0.4; // Set volume to 30% (adjust as needed)
+        music.play();
+    }
+    
+        function toggleLetter(letterId) {
+            playMusic(); // Play music when a letter is opened
+            
+            const letter = document.getElementById(letterId);
+            const envelope = document.querySelector(`.envelope-container[onclick="toggleLetter('${letterId}')"]`);
+    
+            if (letter.classList.contains('show')) {
+                letter.classList.remove('show');
+                setTimeout(() => {
+                    letter.style.display = 'none';
+                    envelope.style.display = 'block';
+                }, 500);
+            } else {
+                envelope.style.display = 'none';
+                letter.style.display = 'block';
+                setTimeout(() => {
+                    letter.classList.add('show');
+                }, 100);
+            }
+        }
+    </script>
+    
+</body>
+</html>

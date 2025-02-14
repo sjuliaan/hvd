@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>:3</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        h1 {
+            color: white;
+            text-shadow: 0 0 10px white;
+            font-size: 2rem;
+            position: absolute;
+            top: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .button {
+            position: absolute;
+            bottom: 20px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: #222;
+            border: 2px solid white;
+            cursor: pointer;
+            border-radius: 8px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease-in-out;
+        }
+        .button:hover {
+            background: white;
+            color: black;
+            box-shadow: 0 0 20px white;
+        }
+        .projectile {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+        }
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 5px white;
+        }
+        .star {
+             position: absolute;
+             width: 2px;
+             height: 2px;
+             background: white;
+             border-radius: 50%;
+               box-shadow: 0 0 5px white;
+             animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .ripple {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: rippleEffect 1s ease-out;
+        }
+        @keyframes rippleEffect {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(10); opacity: 0; }
+        }
+
+        .message {
+            position: absolute;
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px white;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            text-align: center;
+            white-space: pre-line; /* Allows line breaks in the text */
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .gif-popup {
+            position: absolute;
+            bottom: 20px;
+            width: 200px; /* Adjust the size of the GIF (make it bigger) */
+            height: auto;
+            display: none; /* Initially hidden */
+            transform: scale(0); /* Start with no size */
+            transition: transform 0.5s ease-out; /* Pop-up animation */
+        }
+
+        #leftGif {
+            left: calc(50% - 300px); /* Adjust the position of the left GIF */
+            bottom: 10px; /* Adjust vertical position */
+        }
+
+        #rightGif {
+            right: calc(50% - 300px); /* Adjust the position of the right GIF */
+            bottom: 10px; /* Adjust vertical position */
+        }
+
+        .redirect-button {
+            position: absolute;
+            bottom: 80px; /* Position above the fireworks button */
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: #222;
+            border: 2px solid white;
+            cursor: pointer;
+            border-radius: 8px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease-in-out;
+            display: none; /* Initially hidden */
+        }
+        .redirect-button:hover {
+            background: white;
+            color: black;
+            box-shadow: 0 0 20px white;
+        }
+    </style>
+</head>
+<body onclick="createFirework(event.clientX, event.clientY)">
+    <h1>Try mo click kahit saan sa screen hehehe ^^</h1>
+    <button class="button" onclick="toggleAutoFireworks()" id="fireworksButton">Click mo after m paglaruan :3</button>
+    <!-- Left GIF -->
+    <img src="https://media.tenor.com/lq1KwnQKqmcAAAAj/sanrio-dance.gif" alt="Sanrio Dance GIF" class="gif-popup" id="leftGif">
+    <!-- Right GIF -->
+    <img src="https://usagif.com/wp-content/uploads/gify/cinnamoroll-dancing-funny-sticker-usagif.gif" alt="Cinnamoroll Dance GIF" class="gif-popup" id="rightGif">
+    <!-- Redirect Button -->
+    <button class="redirect-button" id="redirectButton" onclick="redirectToPixelGame()">Click mo, after you're done :3!</button>
+    <audio id="fireworksMusic" loop>
+        <source src="fireworks-song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        setTimeout(() => {
+            document.querySelector("h1").style.display = "none";
+        }, 5000);
+
+        // Heartfelt messages to display one by one
+        const messages = [
+            "HI OAAAAT MWEHEHHE", 
+            "I just want you to know that you're always loved!! :3\nI will always be here for you, through your ups and downs", 
+            "I am super proud of you, for always surviving a tough week!!\nEspecially those days, when you were feeling super down, and drained.", 
+            "I am so proud of you rin for survivng those times na andami mo kailangan reviewhin, \nang dami mo kailangang sagutan na activites, tapos halos araw-araw ikaw may quiz, grabe un!",
+            "pero grabe, ang galing mo so much oat!! I'm so proud of you!!! GOSH",
+            "Especially rin for surviving those first to second week after the start of your semester >__<.\nEspecially rin for surviving those days na you feel like you're not enough, or you're not doing enough.",
+            "So, I just want you to know that you're always more than enough!\nI always appreciate everything about you!",
+            "Kaya grabe, sobrang natutuwa ako whenever na you're happy and enjoying your day! \nI hope you know na deserve na deserve mo every little good thing na nangyayari or narereceive mo!",
+            "Deserve na deserve mo, because you've always worked hard for it. \nDeserve mo rin ang happiness, especially for always surviving the tough times!",
+            "So, like I said din, whenever you feel like you're being swallowed up by the darkness\nor whenever you need comfort or a hug, andiyan lang yung binigay ko for you mwehehe.\nI hope you’ll able to feel my presence kay Cinnamoroll. ^___^",
+            "Or if you ever want some light, you can always set it up naman mwehehe.\nPara ala lang, ang cool e. :3 :PP\nAnd also, para mag serve siya as your light whenever you feel down ^____^",
+            "NGAUN OAT >:( I WANT YOU TO KNOW THAT I LOVE YOUR BEAUTY.\nI ALWAYS ADMIRE AND ADORE HOW GORGEOUS U ARE, HOW PRETTY YOU ARE, HOW CUTIE YOU ARE!!!\nGRABE NMN ANG OAT NA I2 SOBRANG LATINA 🫦. IM SO CAPTIVATED BY YOU! RAWR", 
+            "So mwenehehe, I think that's all for this page :3.\nIf you want enjoy m lang yung fireworks show HWAHSHASHA\nKASO GANG MATAPOS UNG KANTA NYAN SHAHWAHSHAHW", 
+        ];
+
+        let currentMessageIndex = 0;
+        let messageInterval;
+
+        function showNextMessage() {
+            if (currentMessageIndex >= messages.length) {
+                clearInterval(messageInterval); // Stop showing messages
+
+                // Show the redirect button after all messages are done
+                const redirectButton = document.getElementById("redirectButton");
+                redirectButton.style.display = "block";
+                return;
+            }
+
+            const message = document.createElement("div");
+            message.classList.add("message");
+            message.innerText = messages[currentMessageIndex];
+            document.body.appendChild(message);
+
+            // Fade in the message
+            setTimeout(() => {
+                message.style.opacity = 1;
+            }, 100);
+
+            // Fade out and remove the message after 5 seconds
+            setTimeout(() => {
+                message.style.opacity = 0;
+                setTimeout(() => message.remove(), 2000); // Remove after fade out
+            }, 8000);
+
+            currentMessageIndex++;
+        }
+
+        function startMessageSequence() {
+            messageInterval = setInterval(() => {
+                showNextMessage();
+            }, 9000); // Show a new message every 9 seconds
+        }
+
+        function redirectToPixelGame() {
+            // Replace this URL with your pixel game's URL
+            window.location.href = "pixelgame.html";
+        }
+
+        document.body.addEventListener("click", (e) => {
+            const ripple = document.createElement("div");
+            ripple.classList.add("ripple");
+            ripple.style.left = `${e.clientX}px`;
+            ripple.style.top = `${e.clientY}px`;
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 1000);
+        });
+
+        function createStars() {
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement("div");
+                star.classList.add("star");
+                star.style.left = `${Math.random() * window.innerWidth}px`;
+                star.style.top = `${Math.random() * window.innerHeight}px`;
+                document.body.appendChild(star);
+            }
+        }
+        createStars();
+
+        let autoFireworksInterval;
+        let fireworkSpeed = 1500;
+        let fireworkCount = 1;
+        let isAutoRunning = false;
+        const music = document.getElementById("fireworksMusic");
+
+        function createFirework(x, y) {
+            const launchHeight = Math.random() * (window.innerHeight / 4) + window.innerHeight / 4;
+            const projectile = document.createElement("div");
+            projectile.classList.add("projectile");
+            projectile.style.left = `${x}px`;
+            projectile.style.top = `${y}px`;
+            document.body.appendChild(projectile);
+
+            anime({
+                targets: projectile,
+                translateY: -launchHeight,
+                duration: 1200,
+                easing: "easeOutQuad",
+                complete: () => {
+                    projectile.remove();
+                    createBurst(x, y - launchHeight);
+                }
+            });
+        }
+
+        function createBurst(x, y) {
+            const particles = 30;
+            for (let i = 0; i < particles; i++) {
+                const particle = document.createElement("div");
+                particle.classList.add("particle");
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                document.body.appendChild(particle);
+
+                const angle = (Math.PI * 2 * i) / particles;
+                anime({
+                    targets: particle,
+                    translateX: Math.cos(angle) * 100,
+                    translateY: Math.sin(angle) * 100,
+                    opacity: [1, 0],
+                    scale: [1, 1.5],
+                    duration: 2000,
+                    easing: "easeOutExpo",
+                    complete: () => particle.remove()
+                });
+            }
+        }
+
+        function toggleAutoFireworks() {
+            const button = document.getElementById("fireworksButton");
+            const leftGif = document.getElementById("leftGif");
+            const rightGif = document.getElementById("rightGif");
+
+            if (isAutoRunning) {
+                clearInterval(autoFireworksInterval);
+                clearInterval(messageInterval); // Stop the message sequence
+                button.innerText = "Click mo after m paglaruan :3";
+                music.pause();
+                music.currentTime = 0;
+                leftGif.style.display = "none"; // Hide the left GIF
+                rightGif.style.display = "none"; // Hide the right GIF
+            } else {
+                fireworkSpeed = 1500;
+                fireworkCount = 2;
+                autoFireworksInterval = setInterval(() => {
+                    for (let i = 0; i < fireworkCount; i++) {
+                        const x = Math.random() * window.innerWidth;
+                        const y = Math.random() * (window.innerHeight * 0.7) + window.innerHeight * 0.3;
+                        createFirework(x, y);
+                    }
+                    fireworkSpeed = Math.max(300, fireworkSpeed * 0.9);
+                    fireworkCount = Math.min(15, fireworkCount + 2);
+                }, fireworkSpeed);
+                button.innerText = "Stop Fireworks";
+                music.play();
+
+                // Show the GIFs with pop-up animation
+                leftGif.style.display = "block";
+                rightGif.style.display = "block";
+                anime({
+                    targets: [leftGif, rightGif],
+                    scale: [0, 1], // Pop-up effect
+                    duration: 500,
+                    easing: "easeOutBack",
+                });
+
+                // Start showing messages one by one
+                currentMessageIndex = 0;
+                startMessageSequence();
+            }
+            isAutoRunning = !isAutoRunning;
+        }
+    </script>
+</body>
+</html>

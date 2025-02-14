@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be My Valentine? 💖</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    body {
+      background: linear-gradient(135deg, #ffebee, #fad0c4);
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 3rem;
+      color: #790024;
+      text-shadow: 2px 2px 8px rgba(255, 61, 119, 0.5);
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    button {
+      font-size: 1.5rem;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    #yes {
+      background-color: #23ad14;
+      color: white;
+    }
+    #no {
+      background-color: #b42421;
+      color: white;
+      position: relative;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    @keyframes floating-hearts {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      color: pink;
+      animation: floating-hearts 5s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://media.tenor.com/SJKw7ibAJCgAAAAj/cat.gif" alt="Cute GIF" id="gif">
+    <h1>Will you be my Valentine?</h1>
+    <div class="buttons">
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+  </div>
+  <script>
+    function createHeart() {zz
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+      heart.innerHTML = '💖';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 500);
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
